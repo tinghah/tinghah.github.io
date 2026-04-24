@@ -2,19 +2,50 @@
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# Run and deploy your AI Studio app
+# Htet Aung Hlaing (ting) | Professional Portfolio
 
-This contains everything you need to run your app locally.
+Welcome to the source code for my professional portfolio website! I am an IT Systems & Digital Transformation Lead specializing in SAP, MES, and WMS integrations, as well as enterprise IT architecture.
 
-View your app in AI Studio: https://ai.studio/apps/2154d48b-ef3f-4c5e-83f0-a50da16a7649
+This project is built using modern web technologies to ensure high performance, maintainability, and an excellent user experience.
 
-## Run Locally
+## 🚀 Tech Stack
 
-**Prerequisites:**  Node.js
+- **Framework:** React + Vite
+- **Styling:** Tailwind CSS (v4)
+- **Animation:** Motion (Framer Motion)
+- **Icons:** Lucide React
+- **AI Integration:** Google GenAI SDK (Gemini)
 
+## 💻 Local Development
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### Prerequisites
+Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
+
+### Quick Start (Windows)
+Double-click the `start.bat` file in the root directory. This will automatically install dependencies and start the local development server on `http://localhost:5173`.
+
+### Manual Setup
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/tinghah/tinghah.github.io.git
+   cd tinghah.github.io
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up your environment variables by creating a `.env` file based on `.env.example`:
+   ```bash
+   GEMINI_API_KEY=your_api_key_here
+   ```
+4. Run the development server:
+   ```bash
+   npm run dev -- --port 5173
+   ```
+
+## 🌐 Deployment
+
+This site is automatically deployed to GitHub Pages using GitHub Actions. Any push to the `main` branch will trigger the `deploy.yml` workflow, build the static assets, and publish them to the live URL.
+
+---
+*Connect with me on [LinkedIn](https://www.linkedin.com/in/tinghah) or check out the live site at [tinghah.github.io](https://tinghah.github.io/).*
