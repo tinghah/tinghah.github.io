@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { LANGUAGES } from './constants';
-import { Github, Linkedin, Download, Mail, Phone, MapPin, Sun, Moon, Terminal, Briefcase, Code, User, Cpu, ArrowRight, Award, FileText, Send, MessageCircle, ExternalLink, Languages, Star, Lock, Globe } from 'lucide-react';
+import { Github, Linkedin, Download, Mail, Phone, MapPin, Sun, Moon, Terminal, Briefcase, Code, User, Cpu, ArrowRight, Award, FileText, Send, MessageCircle, ExternalLink, Languages, Star, Lock, Globe, X } from 'lucide-react';
 import { GoogleGenAI, GenerateContentResponse } from '@google/genai';
 import { LanguageKey } from './constants';
 import reposData from './repos.json';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const API_KEY = process.env.GEMINI_API_KEY;
 
@@ -24,6 +26,8 @@ export default function App() {
   const [isImageZoomed, setIsImageZoomed] = useState(false);
   const [zoomedCertificateImage, setZoomedCertificateImage] = useState<string | null>(null);
   const [isWeChatModalOpen, setIsWeChatModalOpen] = useState(false);
+  const [showAllRepos, setShowAllRepos] = useState(false);
+  const [selectedRepo, setSelectedRepo] = useState<any | null>(null);
 
   // Theme effect
   useEffect(() => {
@@ -192,6 +196,86 @@ export default function App() {
                 </div>
                 <p className="mt-4 text-[var(--muted)] text-[10px] uppercase tracking-widest font-bold">霆 | ting</p>
               </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+
+      {/* Repo Details Modal */}
+      {selectedRepo && (
+        <motion.div 
+          initial={{ opacity: 0 }} 
+          animate={{ opacity: 1 }} 
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/90 backdrop-blur-md"
+          onClick={() => setSelectedRepo(null)}
+        >
+          <motion.div 
+            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            className="relative w-full max-w-4xl max-h-[90vh] bg-[var(--bg)] rounded-3xl border border-[var(--card-border)] shadow-2xl flex flex-col overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="p-6 border-b border-[var(--card-border)] bg-[var(--card)] flex items-center justify-between sticky top-0 z-10">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[var(--bg)] border border-[var(--card-border)] flex items-center justify-center text-[var(--accent)] shrink-0">
+                  <Code size={20} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold font-display text-[var(--fg)] flex items-center gap-2">
+                    {selectedRepo.name}
+                    <div className="flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 bg-[var(--bg)] border border-[var(--card-border)] rounded text-[var(--muted)] shrink-0">
+                      {selectedRepo.private ? <Lock size={10} className="text-red-400" /> : <Globe size={10} className="text-green-400" />}
+                      <span>{selectedRepo.private ? lang.githubRepos.privateBadge : lang.githubRepos.publicBadge}</span>
+                    </div>
+                  </h3>
+                  <div className="flex items-center gap-3 mt-1 text-xs text-[var(--muted)]">
+                    {selectedRepo.language && (
+                      <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[var(--accent)]"></span>{selectedRepo.language}</span>
+                    )}
+                    <span className="flex items-center gap-1"><Star size={12} className="text-yellow-500" />{selectedRepo.stargazers_count}</span>
+                  </div>
+                </div>
+              </div>
+              <button 
+                onClick={() => setSelectedRepo(null)}
+                className="p-2 rounded-full hover:bg-[var(--bg)] text-[var(--muted)] hover:text-[var(--fg)] transition-colors"
+              >
+                <X size={24} />
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-6 overflow-y-auto flex-grow prose prose-invert max-w-none text-sm leading-relaxed prose-headings:font-display prose-headings:text-[var(--fg)] prose-p:text-[var(--muted)] prose-a:text-[var(--accent)] prose-a:no-underline hover:prose-a:underline prose-code:text-[var(--accent)] prose-code:bg-[var(--accent)]/10 prose-code:px-1 prose-code:rounded prose-pre:bg-[#0a0a0a] prose-pre:border prose-pre:border-[var(--card-border)]">
+              {selectedRepo.readme ? (
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {selectedRepo.readme}
+                </ReactMarkdown>
+              ) : (
+                <div className="text-center py-12">
+                  <FileText size={48} className="mx-auto text-[var(--card-border)] mb-4" />
+                  <p className="text-[var(--muted)]">No README.md found for this repository.</p>
+                  {selectedRepo.description && (
+                    <div className="mt-8 text-left bg-[var(--card)] p-6 rounded-xl border border-[var(--card-border)]">
+                      <h4 className="text-lg font-bold text-[var(--fg)] mb-2">Description</h4>
+                      <p>{selectedRepo.description}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-6 border-t border-[var(--card-border)] bg-[var(--card)] flex items-center justify-between">
+              <span className="text-xs text-[var(--muted)]">Last updated: {new Date(selectedRepo.updated_at).toLocaleDateString()}</span>
+              <a 
+                href={selectedRepo.html_url} 
+                target="_blank" 
+                rel="noreferrer"
+                className="px-6 py-2.5 bg-[var(--accent)] text-white rounded-lg font-bold text-sm flex items-center gap-2 hover:opacity-90 transition-opacity"
+              >
+                <Github size={18} /> View on GitHub
+              </a>
             </div>
           </motion.div>
         </motion.div>
@@ -448,15 +532,13 @@ export default function App() {
               <h2 className="text-4xl font-bold font-display text-gradient">{lang.githubRepos.title}</h2>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {reposData.slice(0, 9).map((repo, index) => (
-                <motion.a 
-                  href={repo.html_url} 
-                  target="_blank" 
-                  rel="noreferrer"
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+              {reposData.slice(0, showAllRepos ? reposData.length : 9).map((repo, index) => (
+                <motion.div 
+                  onClick={() => setSelectedRepo(repo)}
                   key={repo.id}
                   whileHover={{ y: -5 }}
-                  className="bg-[var(--card)] border border-[var(--card-border)] rounded-2xl p-6 flex flex-col h-full hover:border-[var(--accent)] hover:shadow-xl hover:shadow-[var(--accent)]/10 transition-all group"
+                  className="bg-[var(--card)] border border-[var(--card-border)] rounded-2xl p-6 flex flex-col h-full hover:border-[var(--accent)] hover:shadow-xl hover:shadow-[var(--accent)]/10 transition-all group cursor-pointer"
                 >
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex items-center gap-2 text-[var(--fg)] font-bold text-lg group-hover:text-[var(--accent)] transition-colors line-clamp-1">
@@ -486,11 +568,22 @@ export default function App() {
                         <span>{repo.stargazers_count}</span>
                       </div>
                     </div>
-                    <ExternalLink size={16} className="text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors opacity-0 group-hover:opacity-100" />
+                    <ArrowRight size={16} className="text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors opacity-0 group-hover:opacity-100" />
                   </div>
-                </motion.a>
+                </motion.div>
               ))}
             </div>
+
+            {reposData.length > 9 && (
+              <div className="flex justify-center">
+                <button 
+                  onClick={() => setShowAllRepos(!showAllRepos)}
+                  className="px-8 py-3 bg-[var(--card)] border border-[var(--card-border)] hover:border-[var(--accent)] hover:text-[var(--accent)] rounded-full font-medium transition-all flex items-center gap-2 shadow-sm text-sm"
+                >
+                  {showAllRepos ? 'Show Less' : `See All ${reposData.length} Repositories`}
+                </button>
+              </div>
+            )}
           </motion.div>
         </section>
 
