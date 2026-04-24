@@ -59,6 +59,16 @@ export const LANGUAGES = {
           ],
         },
         {
+          role: 'Freelance AI Agent & Infrastructure Specialist',
+          company: 'Self-Employed (Part-Time)',
+          duration: 'Present',
+          description: [
+            'Developing and fine-tuning advanced AI solutions including OpenClaw Agent and Hermes Agent for automated workflows.',
+            'Deploying and self-hosting infrastructure across diverse environments: GCP, custom VPS instances, and Linux machines.',
+            'Optimizing local machine development environments using WSL on Windows and dedicated VMs for robust testing and scaling.'
+          ],
+        },
+        {
           role: 'Network & System Infrastructure Engineer',
           company: 'Sakura, SUZUKI, ISUZU, MMC',
           duration: '2023 - 2025',
@@ -77,6 +87,12 @@ export const LANGUAGES = {
           ],
         }
       ],
+    },
+    githubRepos: {
+      title: 'GitHub Repositories',
+      privateBadge: 'Private',
+      publicBadge: 'Public',
+      stars: 'Stars',
     },
     projects: {
       title: 'Selected Impact Projects',
@@ -261,6 +277,16 @@ export const LANGUAGES = {
           ],
         },
         {
+          role: 'Freelance AI Agent & Infrastructure Specialist',
+          company: 'ကိုယ်ပိုင်လုပ်ငန်း (အချိန်ပိုင်း)',
+          duration: 'လက်ရှိ',
+          description: [
+            'အလိုအလျောက်လုပ်ငန်းစဉ်များအတွက် OpenClaw Agent နှင့် Hermes Agent ကဲ့သို့သော အဆင့်မြင့် AI ဖြေရှင်းချက်များကို တီထွင်ဖန်တီးခြင်း။',
+            'GCP၊ VPS၊ နှင့် Linux စက်များအပါအဝင် အမျိုးမျိုးသော ပတ်ဝန်းကျင်များတွင် ကိုယ်ပိုင်ဆာဗာ (Self-host) များကို စီမံခန့်ခွဲခြင်း။',
+            'စမ်းသပ်မှုနှင့် တိုးချဲ့မှုများအတွက် Windows ပေါ်ရှိ WSL နှင့် VMs များကို အသုံးပြု၍ local machine ဖွံ့ဖြိုးတိုးတက်မှု ပတ်ဝန်းကျင်ကို အကောင်းဆုံးဖြစ်အောင် ပြင်ဆင်ခြင်း။'
+          ],
+        },
+        {
           role: 'Network & System Infrastructure Engineer',
           company: 'Sakura, SUZUKI, ISUZU, MMC',
           duration: '၂၀၂၃ - ၂၀၂၅',
@@ -278,6 +304,12 @@ export const LANGUAGES = {
           ],
         }
       ],
+    },
+    githubRepos: {
+      title: 'GitHub စီမံကိန်းများ',
+      privateBadge: 'သီးသန့်',
+      publicBadge: 'အများပြည်သူ',
+      stars: 'ကြယ်များ',
     },
     projects: {
       title: 'ရွေးချယ်ထားသော စီမံကိန်းများ',
@@ -462,6 +494,16 @@ export const LANGUAGES = {
           ],
         },
         {
+          role: 'Freelance AI Agent & Infrastructure Specialist',
+          company: '自由职业 (兼职)',
+          duration: '至今',
+          description: [
+            '开发和微调高级 AI 解决方案，包括 OpenClaw Agent 和 Hermes Agent，以实现工作流程自动化。',
+            '在各种环境中部署和自托管基础设施：GCP、自定义 VPS 实例和 Linux 机器。',
+            '使用 Windows 上的 WSL 和专用 VM 优化本地机器开发环境，以进行可靠的测试和扩展。'
+          ],
+        },
+        {
           role: '网络与系统基础设施工程师',
           company: 'Sakura, SUZUKI, ISUZU, MMC',
           duration: '2023 - 2025',
@@ -479,6 +521,12 @@ export const LANGUAGES = {
           ],
         }
       ],
+    },
+    githubRepos: {
+      title: 'GitHub 仓库',
+      privateBadge: '私有',
+      publicBadge: '公开',
+      stars: '星标',
     },
     projects: {
       title: '精选影响力项目',

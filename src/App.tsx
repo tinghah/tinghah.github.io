@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { LANGUAGES } from './constants';
-import { Github, Linkedin, Download, Mail, Phone, MapPin, Sun, Moon, Terminal, Briefcase, Code, User, Cpu, ArrowRight, Award, FileText, Send, MessageCircle, ExternalLink, Languages } from 'lucide-react';
+import { Github, Linkedin, Download, Mail, Phone, MapPin, Sun, Moon, Terminal, Briefcase, Code, User, Cpu, ArrowRight, Award, FileText, Send, MessageCircle, ExternalLink, Languages, Star, Lock, Globe } from 'lucide-react';
 import { GoogleGenAI, GenerateContentResponse } from '@google/genai';
 import { LanguageKey } from './constants';
+import reposData from './repos.json';
 
 const API_KEY = process.env.GEMINI_API_KEY;
 
@@ -41,7 +42,7 @@ export default function App() {
   // Scroll spy for active section
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['about', 'experience', 'projects', 'skills', 'ai'];
+      const sections = ['about', 'experience', 'projects', 'githubRepos', 'skills', 'ai'];
       const scrollPosition = window.scrollY + 200; // Offset
 
       for (const section of sections) {
@@ -202,6 +203,7 @@ export default function App() {
           { id: 'about', icon: User, label: 'About' },
           { id: 'experience', icon: Briefcase, label: 'Experience' },
           { id: 'projects', icon: Code, label: 'Projects' },
+          { id: 'githubRepos', icon: Github, label: 'Repos' },
           { id: 'skills', icon: Cpu, label: 'Skills' },
           { id: 'ai', icon: Terminal, label: 'AI Chat' }
         ].map((item) => (
@@ -433,6 +435,60 @@ export default function App() {
                     {project.description}
                   </p>
                 </div>
+              ))}
+            </div>
+          </motion.div>
+        </section>
+
+        {/* GITHUB REPOS SECTION */}
+        <section id="githubRepos" className="py-24 border-t border-[var(--card-border)]">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+            <div className="flex items-center gap-4 mb-12">
+              <Github className="text-[var(--accent)]" size={40} />
+              <h2 className="text-4xl font-bold font-display text-gradient">{lang.githubRepos.title}</h2>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {reposData.slice(0, 9).map((repo, index) => (
+                <motion.a 
+                  href={repo.html_url} 
+                  target="_blank" 
+                  rel="noreferrer"
+                  key={repo.id}
+                  whileHover={{ y: -5 }}
+                  className="bg-[var(--card)] border border-[var(--card-border)] rounded-2xl p-6 flex flex-col h-full hover:border-[var(--accent)] hover:shadow-xl hover:shadow-[var(--accent)]/10 transition-all group"
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="flex items-center gap-2 text-[var(--fg)] font-bold text-lg group-hover:text-[var(--accent)] transition-colors line-clamp-1">
+                      <Code size={18} className="text-[var(--muted)]" />
+                      <span className="truncate">{repo.name}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-xs font-mono px-2 py-1 bg-[var(--bg)] border border-[var(--card-border)] rounded-md text-[var(--muted)] shrink-0">
+                      {repo.private ? <Lock size={12} className="text-red-400" /> : <Globe size={12} className="text-green-400" />}
+                      <span>{repo.private ? lang.githubRepos.privateBadge : lang.githubRepos.publicBadge}</span>
+                    </div>
+                  </div>
+                  
+                  <p className="text-[var(--muted)] text-sm leading-relaxed mb-6 flex-grow line-clamp-3">
+                    {repo.description || "No description provided."}
+                  </p>
+                  
+                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-[var(--card-border)]">
+                    <div className="flex items-center gap-4 text-xs font-medium text-[var(--muted)]">
+                      {repo.language && (
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent)]"></span>
+                          <span>{repo.language}</span>
+                        </div>
+                      )}
+                      <div className="flex items-center gap-1">
+                        <Star size={14} className="text-yellow-500" />
+                        <span>{repo.stargazers_count}</span>
+                      </div>
+                    </div>
+                    <ExternalLink size={16} className="text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors opacity-0 group-hover:opacity-100" />
+                  </div>
+                </motion.a>
               ))}
             </div>
           </motion.div>
